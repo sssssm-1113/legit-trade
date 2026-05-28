@@ -53,7 +53,7 @@ public class TradeScreenHandler extends ScreenHandler {
         this.outputInventory = new SimpleInventory(1);
         this.context = context;
 
-        this.addSlot(new Slot(inputInventory, INPUT_SLOT, RIGHT_PANEL_X + 8, 16));
+        this.addSlot(new TradeInputSlot(this, RIGHT_PANEL_X + 8, 16));
         this.addSlot(new TradeOutputSlot(this, RIGHT_PANEL_X + 92, 16));
 
         for (int row = 0; row < 3; row++) {
@@ -464,6 +464,24 @@ public class TradeScreenHandler extends ScreenHandler {
         outputInventory.clear();
     }
 
+    private static class TradeInputSlot extends Slot {
+        private final TradeScreenHandler handler;
+
+        public TradeInputSlot(TradeScreenHandler handler, int x, int y) {
+            super(handler.inputInventory, 0, x, y);
+            this.handler = handler;
+        }
+
+        @Override
+        public boolean canInsert(ItemStack stack) {
+            TradeConfig.TradeEntry trade = handler.getSelectedTrade();
+            if (trade == null) {
+                return false;
+            }
+            return trade.matchesInputStack(stack);
+        }
+    }
+
     private static class TradeOutputSlot extends Slot {
         private final TradeScreenHandler handler;
 
@@ -480,16 +498,6 @@ public class TradeScreenHandler extends ScreenHandler {
         @Override
         public boolean canTakeItems(PlayerEntity player) {
             return handler.hasValidTrade();
-        }
-
-        @Override
-        public ItemStack getStack() {
-            return super.getStack();
-        }
-
-        @Override
-        public void setStack(ItemStack stack) {
-            super.setStack(stack);
         }
 
         @Override

@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 public class TradeConfig {
-	private static final Logger LOGGER = LoggerFactory.getLogger("legittrade");
+    private static final Logger LOGGER = LoggerFactory.getLogger("legittrade");
 	private static final int MAX_STACK_COUNT = 64;
 	public static final int MAX_GROUPS = 128;
 	public static final int MAX_TRADES_PER_GROUP = 1024;
@@ -388,9 +388,10 @@ public class TradeConfig {
 
 			List<RawTradeEntry> rawList = gson.fromJson(array, new TypeToken<List<RawTradeEntry>>() {}.getType());
 			return toSingleDefaultGroup(toValidTrades(rawList, "Default"));
-		} catch (Exception ignored) {
-			return Collections.emptyList();
-		}
+        } catch (Exception e) {
+            LOGGER.error("Failed to parse trade config JSON", e);
+            return Collections.emptyList();
+        }
 	}
 
 	public static void load() {

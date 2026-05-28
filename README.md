@@ -44,7 +44,7 @@ Release build:
 
 ### Web Config UI
 
-After server starts, visit `http://server-ip:39482`:
+After server starts, visit `http://localhost:39482` (or configure `bindAddress` for remote access):
 
 - View all trade configs
 - Add/edit/delete trades
@@ -64,7 +64,7 @@ Config file: `config/legittrade-web.json`
 {
   "enabled": true,
   "port": 39482,
-  "bindAddress": "0.0.0.0"
+  "bindAddress": "127.0.0.1"
 }
 ```
 

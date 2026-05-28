@@ -16,7 +16,7 @@ public class WebConfig {
 
 	private int port = 39482;
 	private boolean enabled = true;
-	private String bindAddress = "0.0.0.0";
+	private String bindAddress = "127.0.0.1";
 
 	public int getPort() {
 		return port;

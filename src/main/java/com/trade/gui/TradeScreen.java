@@ -253,19 +253,6 @@ public class TradeScreen extends HandledScreen<TradeScreenHandler> {
         return Integer.toString(Math.max(0, count));
     }
 
-    private String formatTradeLine(TradeConfig.TradeEntry trade) {
-        String in = trade.input;
-        String out = trade.output;
-
-        if (trade.getInputItem() != null) {
-            in = trade.getInputItem().getName().getString();
-        }
-        if (trade.getOutputItem() != null) {
-            out = trade.getOutputItem().getName().getString();
-        }
-        return trade.inputCount + " " + in + " -> " + trade.outputCount + " " + out;
-    }
-
     @Override
     public void render(DrawContext context, int mouseX, int mouseY, float delta) {
         this.renderBackground(context);
@@ -283,7 +270,9 @@ public class TradeScreen extends HandledScreen<TradeScreenHandler> {
         int hoveredTradeIndex = getHoveredTradeIndex(localMouseX, localMouseY);
         if (hoveredTradeIndex >= 0 && hoveredTradeIndex < TradeConfig.getTrades().size()) {
             TradeConfig.TradeEntry trade = TradeConfig.getTrades().get(hoveredTradeIndex);
-            context.drawTooltip(this.textRenderer, Text.literal(formatTradeLine(trade)), x, y);
+            String inName = (trade.getInputItem() != null) ? trade.getInputItem().getName().getString() : trade.input;
+            String outName = (trade.getOutputItem() != null) ? trade.getOutputItem().getName().getString() : trade.output;
+            context.drawTooltip(this.textRenderer, Text.literal(trade.inputCount + " " + inName + " -> " + trade.outputCount + " " + outName), x, y);
             return;
         }
 
